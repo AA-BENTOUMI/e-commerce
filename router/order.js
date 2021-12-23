@@ -1,4 +1,5 @@
 const express = require("express");
+const Order = require("../models/Order");
 const router = express.Router()
 const Oreder = require("../models/Order");
 
@@ -24,7 +25,25 @@ router.post('/addorder',async(req,res)=>{
         res.status(400).send({ errors: [{ msg: "échec commande", error }] });   
     }
 })
-
+// get all orders
+router.get('/getorders',async(req,res)=>{
+    try {
+      const allorders=await Order.find()
+      res.status(200).send(allorders)
+    } catch (error) {
+      res.send({errors:[{msg:"error fetch all orders"}]})
+    }
+  })
+// get one order
+router.get('/oneorder/:id',async(req,res)=>{
+    try {
+        let result=await Oreder.findById( { _id: req.params.id },);
+         res.status(200).send({ msg: "successfully" ,result});
+      } catch (error) {
+        res.status(400).send({ errors: [{ msg: "order not found", error }] });
+      }
+})
+//******update oreder*******/
 router.put('/updateorder/:id',async(req,res)=>{
     try {
         let result=await Order.findByIdAndUpdate(req.params.id, req.body);
@@ -33,5 +52,16 @@ router.put('/updateorder/:id',async(req,res)=>{
         res.status(400).send({errors:[{msg:"failed update"}]})
     }
 });
+//******delete order****** */
+router.delete('/deleteorder/:id',async(req,res)=>{
+    try {
+        const { id } = req.params;
+        // find romm with  id and deleted
+        await Order.deleteOne({ _id: id });
+        res.send({ msg: "order is deleted " });
+      } catch (error) {
+        res.status(400).send({ msg: "failed delete", error });
+      }
+})
 
 module.exports=router

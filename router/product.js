@@ -89,7 +89,24 @@ router.post('/addproduct',upload.array('images', 3 ),async(req,res)=>{
     }
     
 });
-
+// get all products
+router.get('/getproducts',async(req,res)=>{
+  try {
+    const allproducts=await Product.find()
+    res.status(200).send(allproducts)
+  } catch (error) {
+    res.send({errors:[{msg:"error fetch allproducts"}]})
+  }
+});
+// get one product
+router.get('/oneproduct/:id',async(req,res)=>{
+  try {
+      let result=await Product.findById( { _id: req.params.id },);
+       res.status(200).send({ msg: "successfully" ,result});
+    } catch (error) {
+      res.status(400).send({ errors: [{ msg: "product not found", error }] });
+    }
+})
  // *****update product******// 
  router.put('/updateproduct/:id',async(req,res)=>{
   try {
@@ -99,4 +116,15 @@ router.post('/addproduct',upload.array('images', 3 ),async(req,res)=>{
       res.status(400).send({errors:[{msg:"failed update"}]})
   }
 });
+//******delete product****** */
+router.delete('/deleteproduct/:id',async(req,res)=>{
+  try {
+      const { id } = req.params;
+      // find romm with  id and deleted
+      await Product.deleteOne({ _id: id });
+      res.send({ msg: "product is deleted " });
+    } catch (error) {
+      res.status(400).send({ msg: "failed delete", error });
+    }
+})
 module.exports=router
