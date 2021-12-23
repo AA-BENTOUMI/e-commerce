@@ -25,6 +25,13 @@ router.post('/addorder',async(req,res)=>{
     }
 })
 
-
+router.put('/updateorder/:id',async(req,res)=>{
+    try {
+        let result=await Order.findByIdAndUpdate(req.params.id, req.body);
+        res.status(200).send({ msg: "order is updated", result });
+    } catch (error) {
+        res.status(400).send({errors:[{msg:"failed update"}]})
+    }
+});
 
 module.exports=router

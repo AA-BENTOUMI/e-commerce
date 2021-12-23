@@ -90,6 +90,13 @@ router.post('/addproduct',upload.array('images', 3 ),async(req,res)=>{
     
 });
 
-  
-
+ // *****update product******// 
+ router.put('/updateproduct/:id',async(req,res)=>{
+  try {
+      let result=await Product.findByIdAndUpdate(req.params.id, req.body);
+      res.status(200).send({ msg: "product is updated", result });
+  } catch (error) {
+      res.status(400).send({errors:[{msg:"failed update"}]})
+  }
+});
 module.exports=router

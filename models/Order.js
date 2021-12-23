@@ -19,7 +19,7 @@ const orderSchema = new Schema({
     email: { type: String},
     status: {
       type: String,
-      enum: ["new", "no response ", "waiting payment","passed" ,"received"],
+      enum: ["new", "no response", "waiting payment","passed" ,"received"],
       default: "new",
     },
 });
