@@ -10,13 +10,13 @@ const orderSchema = new Schema({
     orderNumber:{type: Number, default : function() {
       return Math.floor(Math.random()*9000000) + 1000000
     }},
-    name: { type: String},
-    adress: { type: String},
-    gouvernerat: { type: String},
-    codePostal: { type: Number},
-    date :{type: Date},
-    phone: { type: Number },
-    email: { type: String},
+    name: { type: String, required: true},
+    adress: { type: String, required: true},
+    gouvernerat: { type: String, required: true},
+    codePostal: { type: Number, required: true},
+    date :{type: Date, required: true},
+    phone: { type: Number, required: true },
+    email: { type: String, required: true},
     status: {
       type: String,
       enum: ["new", "no response", "waiting payment","passed" ,"received"],

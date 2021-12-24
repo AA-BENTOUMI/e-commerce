@@ -2,10 +2,10 @@ const express = require("express");
 const Order = require("../models/Order");
 const router = express.Router()
 const Oreder = require("../models/Order");
-
+const { orderValidation, validation} = require("../middlewares/orderValidation");
 
 // ***new order function****
-router.post('/addorder',async(req,res)=>{
+router.post('/addorder',orderValidation(), validation,async(req,res)=>{
     try {
         const addcommande = new Oreder({
             orderNumber:req.body.orderNumber,
